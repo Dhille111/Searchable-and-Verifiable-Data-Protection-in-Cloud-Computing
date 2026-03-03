@@ -67,8 +67,20 @@
 			connection = DriverManager.getConnection(jdbcUrl, pgProps);
 
 			Statement ddl = connection.createStatement();
-			ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_owner (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, addr TEXT, dob TEXT, gender TEXT, pin TEXT, location TEXT, imagess BYTEA)");
-			ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_user (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, addr TEXT, dob TEXT, gender TEXT, pin TEXT, location TEXT, imagess BYTEA)");
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_owner (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, addr TEXT, dob TEXT, gender TEXT, pin TEXT, location TEXT, imagess BYTEA)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_user (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, addr TEXT, dob TEXT, gender TEXT, pin TEXT, location TEXT, imagess BYTEA)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
 			ddl.close();
 		} else {
 			try {
