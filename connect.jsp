@@ -30,23 +30,41 @@
 			}
 
 			String jdbcUrl;
+			Properties pgProps = new Properties();
+			if (dbUser != null && dbUser.trim().length() > 0) pgProps.setProperty("user", dbUser);
+			if (dbPass != null) pgProps.setProperty("password", dbPass);
+
 			if (dbUrl != null && dbUrl.trim().length() > 0) {
-				jdbcUrl = dbUrl.trim();
-				if (jdbcUrl.startsWith("postgres://")) {
-					jdbcUrl = "postgresql://" + jdbcUrl.substring("postgres://".length());
+				String raw = dbUrl.trim();
+				if (raw.startsWith("jdbc:")) {
+					raw = raw.substring(5);
 				}
-				if (!jdbcUrl.startsWith("jdbc:")) {
-					jdbcUrl = "jdbc:" + jdbcUrl;
+				if (raw.startsWith("postgres://")) {
+					raw = "postgresql://" + raw.substring("postgres://".length());
+				}
+
+				if (raw.startsWith("postgresql://")) {
+					java.net.URI uri = new java.net.URI(raw);
+					String host = uri.getHost();
+					int port = uri.getPort() > 0 ? uri.getPort() : 5432;
+					String path = uri.getPath();
+					String urlDb = (path != null && path.length() > 1) ? path.substring(1) : dbName;
+					jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + urlDb;
+
+					String userInfo = uri.getUserInfo();
+					if (userInfo != null && userInfo.contains(":")) {
+						String[] up = userInfo.split(":", 2);
+						if (!pgProps.containsKey("user") || pgProps.getProperty("user").trim().length() == 0) pgProps.setProperty("user", up[0]);
+						if (!pgProps.containsKey("password")) pgProps.setProperty("password", up[1]);
+					}
+				} else {
+					jdbcUrl = "jdbc:" + raw;
 				}
 			} else {
 				jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
 			}
 
-			if ((dbUrl != null && dbUrl.contains("@")) || (dbHost != null && (dbHost.startsWith("jdbc:postgresql://") || dbHost.startsWith("postgresql://") || dbHost.startsWith("postgres://")) && dbHost.contains("@"))) {
-				connection = DriverManager.getConnection(jdbcUrl);
-			} else {
-				connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
-			}
+			connection = DriverManager.getConnection(jdbcUrl, pgProps);
 		} else {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
