@@ -22,8 +22,31 @@
 
 		if ("postgres".equalsIgnoreCase(dbType) || "postgresql".equalsIgnoreCase(dbType)) {
 			Class.forName("org.postgresql.Driver");
-			String jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
-			connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
+			String dbUrl = System.getenv("DB_URL");
+			if (dbUrl == null || dbUrl.trim().length() == 0) {
+				if (dbHost.startsWith("jdbc:postgresql://") || dbHost.startsWith("postgresql://") || dbHost.startsWith("postgres://")) {
+					dbUrl = dbHost;
+				}
+			}
+
+			String jdbcUrl;
+			if (dbUrl != null && dbUrl.trim().length() > 0) {
+				jdbcUrl = dbUrl.trim();
+				if (jdbcUrl.startsWith("postgres://")) {
+					jdbcUrl = "postgresql://" + jdbcUrl.substring("postgres://".length());
+				}
+				if (!jdbcUrl.startsWith("jdbc:")) {
+					jdbcUrl = "jdbc:" + jdbcUrl;
+				}
+			} else {
+				jdbcUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
+			}
+
+			if ((dbUrl != null && dbUrl.contains("@")) || (dbHost != null && (dbHost.startsWith("jdbc:postgresql://") || dbHost.startsWith("postgresql://") || dbHost.startsWith("postgres://")) && dbHost.contains("@"))) {
+				connection = DriverManager.getConnection(jdbcUrl);
+			} else {
+				connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
+			}
 		} else {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
