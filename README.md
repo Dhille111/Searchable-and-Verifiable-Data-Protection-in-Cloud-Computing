@@ -2,11 +2,12 @@
 
 ## Run locally
 - Java 21+
-- MySQL 8+
-- Import `database/Database.sql` into MySQL database `svdp`
+- MySQL 8+ or PostgreSQL 14+
+- Import/create schema before starting app
 - Configure DB using environment variables or defaults in `connect.jsp`
 
 Environment variables supported:
+- `DB_TYPE` (`mysql` or `postgres`, optional; auto-detected from `DB_PORT`)
 - `DB_HOST`
 - `DB_PORT`
 - `DB_NAME`
@@ -26,11 +27,12 @@ This project is configured for Docker deployment on Render.
 2. In Render: **New +** → **Blueprint** (or Web Service from repo).
 3. Select this repository.
 4. Set environment variables:
-   - `DB_HOST` = your MySQL host
-   - `DB_PORT` = `3306`
-   - `DB_NAME` = `svdp`
-   - `DB_USER` = your MySQL user
-   - `DB_PASS` = your MySQL password
+   - `DB_TYPE` = `postgres`
+   - `DB_HOST` = host from Render PostgreSQL **Internal Database URL**
+   - `DB_PORT` = `5432`
+   - `DB_NAME` = your Render DB name (example: `svdp_db`)
+   - `DB_USER` = your Render DB user (example: `svdp_db_user`)
+   - `DB_PASS` = your Render DB password
 5. Deploy.
 
 ## Notes
