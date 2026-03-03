@@ -54,8 +54,8 @@
 					String userInfo = uri.getUserInfo();
 					if (userInfo != null && userInfo.contains(":")) {
 						String[] up = userInfo.split(":", 2);
-						if (!pgProps.containsKey("user") || pgProps.getProperty("user").trim().length() == 0) pgProps.setProperty("user", up[0]);
-						if (!pgProps.containsKey("password")) pgProps.setProperty("password", up[1]);
+						pgProps.setProperty("user", up[0]);
+						pgProps.setProperty("password", up[1]);
 					}
 				} else {
 					jdbcUrl = "jdbc:" + raw;
