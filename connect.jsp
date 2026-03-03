@@ -65,6 +65,11 @@
 			}
 
 			connection = DriverManager.getConnection(jdbcUrl, pgProps);
+
+			Statement ddl = connection.createStatement();
+			ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_owner (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, addr TEXT, dob TEXT, gender TEXT, pin TEXT, location TEXT, imagess BYTEA)");
+			ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_user (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, addr TEXT, dob TEXT, gender TEXT, pin TEXT, location TEXT, imagess BYTEA)");
+			ddl.close();
 		} else {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
