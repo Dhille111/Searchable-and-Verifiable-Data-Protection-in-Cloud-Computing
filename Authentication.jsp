@@ -21,20 +21,20 @@
 	try {
 	if(type.equalsIgnoreCase("cloud"))
 	{
-		 sql = "SELECT 1 FROM cloud_server where username='" + name
-				+ "' and password='" + pass + "' UNION SELECT 1 FROM pusg_cloud where name='" + name
+		 sql = "SELECT 1 FROM cloud_server where name='" + name
+				+ "' and pass='" + pass + "' UNION SELECT 1 FROM pusg_cloud where name='" + name
 				+ "' and pass='" + pass + "' ";
 				}
 				if(type.equalsIgnoreCase("trust"))
 	{
-		 sql = "SELECT 1 FROM ttp where username='" + name
-				+ "' and password='" + pass + "' UNION SELECT 1 FROM pusg_trust where name='" + name
+		 sql = "SELECT 1 FROM ttp where name='" + name
+				+ "' and pass='" + pass + "' UNION SELECT 1 FROM pusg_trust where name='" + name
 				+ "' and pass='" + pass + "' ";
 				}
 				if(type.equalsIgnoreCase("domain"))
 	{
-		 sql = "SELECT 1 FROM domain_manager where username='" + name
-				+ "' and password='" + pass + "' UNION SELECT 1 FROM pusg_domain where name='" + name
+		 sql = "SELECT 1 FROM domain_manager where name='" + name
+				+ "' and pass='" + pass + "' UNION SELECT 1 FROM pusg_domain where name='" + name
 				+ "' and pass='" + pass + "' ";
 				}
 				if(type.equalsIgnoreCase("user"))
