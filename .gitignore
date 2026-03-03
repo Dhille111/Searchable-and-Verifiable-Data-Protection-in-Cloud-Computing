@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Java build outputs
+*.class
+
+# Local runtime artifacts
+.runtime/
+logs/
+
+# Temp files
+*.tmp
+*.swp
+
+# Git
+.git/
