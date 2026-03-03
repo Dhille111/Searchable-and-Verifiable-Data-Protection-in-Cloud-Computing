@@ -8,7 +8,11 @@
 <%
 					ArrayList list = new ArrayList();
 					ServletContext context = getServletContext();
-					String dirName =context.getRealPath("Gallery\\");
+					String dirName =context.getRealPath("Gallery");
+					File galleryDir = new File(dirName);
+					if (!galleryDir.exists()) {
+						galleryDir.mkdirs();
+					}
 					String paramname=null;
 					String file=null;
 					String a=null,b=null,c=null,d=null,image=null;
@@ -92,7 +96,7 @@
 							{
 								f = 1;
 								image = multi.getFilesystemName(paramname);
-								String fPath = context.getRealPath("Gallery\\"+image);
+								String fPath = new File(galleryDir, image).getAbsolutePath();
 								file1 = new File(fPath);
 								fs = new FileInputStream(file1);
 								list.add(fs);
@@ -159,12 +163,15 @@
 						ps.setString(8,pincode);
 						ps.setString(9,location);
 				
-						ps.setBinaryStream(10, (InputStream)fs, (int)(file1.length()));	
+						if(file1 != null && fs != null)
+							ps.setBinaryStream(10, (InputStream)fs, (int)(file1.length()));
+						else
+							ps.setObject(10,null);
 				//		ps.setString(11,sk);		
 						
 						if(f == 0)
 							ps.setObject(10,null);
-						else if(f == 12)
+						else if(f == 1)
 						{
 							fs1 = (FileInputStream)list.get(0);
 							ps.setBinaryStream(10,fs1,fs1.available());
