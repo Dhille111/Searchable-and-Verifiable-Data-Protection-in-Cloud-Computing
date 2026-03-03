@@ -81,6 +81,31 @@
 					throw se;
 				}
 			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS ttp (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, address TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS domain_manager (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, address TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS cloud_server (id SERIAL PRIMARY KEY, name TEXT, pass TEXT, email TEXT, mobile TEXT, address TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+
+			ddl.executeUpdate("INSERT INTO ttp(name,pass,email,mobile,address) SELECT 'ttpadmin','1234','ttp@svdp.com','9000000001','TTP HQ' WHERE NOT EXISTS (SELECT 1 FROM ttp WHERE name='ttpadmin')");
+			ddl.executeUpdate("INSERT INTO domain_manager(name,pass,email,mobile,address) SELECT 'domainadmin','1234','domain@svdp.com','9000000002','Domain HQ' WHERE NOT EXISTS (SELECT 1 FROM domain_manager WHERE name='domainadmin')");
+			ddl.executeUpdate("INSERT INTO cloud_server(name,pass,email,mobile,address) SELECT 'cloudadmin','1234','cloud@svdp.com','9000000003','Cloud HQ' WHERE NOT EXISTS (SELECT 1 FROM cloud_server WHERE name='cloudadmin')");
 			ddl.close();
 		} else {
 			try {
