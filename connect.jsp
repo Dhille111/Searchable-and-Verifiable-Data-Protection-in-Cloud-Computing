@@ -123,6 +123,41 @@
 					throw se;
 				}
 			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_domains (domain TEXT PRIMARY KEY)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_cloudserver (fname TEXT, ownername TEXT, cname TEXT, ct1 TEXT, mac1 TEXT, ct2 TEXT, mac2 TEXT, ct3 TEXT, mac3 TEXT, ct4 TEXT, mac4 TEXT, sk TEXT, dt TEXT, domain TEXT, per TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_ttp (fname TEXT, ownername TEXT, cname TEXT, mac1 TEXT, mac2 TEXT, mac3 TEXT, mac4 TEXT, sk TEXT, dt TEXT, domain TEXT, per TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_userrequest (username TEXT, fnamereq TEXT, reqdate TEXT, resdate TEXT, resstatus TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS results (fname TEXT, ttime TEXT, tpt TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
 
 			ddl.executeUpdate("INSERT INTO ttp(name,pass,email,mobile,address) SELECT 'ttpadmin','1234','ttp@svdp.com','9000000001','TTP HQ' WHERE NOT EXISTS (SELECT 1 FROM ttp WHERE name='ttpadmin')");
 			ddl.executeUpdate("INSERT INTO domain_manager(name,pass,email,mobile,address) SELECT 'domainadmin','1234','domain@svdp.com','9000000002','Domain HQ' WHERE NOT EXISTS (SELECT 1 FROM domain_manager WHERE name='domainadmin')");
@@ -130,6 +165,7 @@
 			ddl.executeUpdate("INSERT INTO pusg_trust(name,pass,email,mobile,address) SELECT 'ttpadmin','1234','ttp@svdp.com','9000000001','TTP HQ' WHERE NOT EXISTS (SELECT 1 FROM pusg_trust WHERE name='ttpadmin')");
 			ddl.executeUpdate("INSERT INTO pusg_domain(name,pass,email,mobile,address) SELECT 'domainadmin','1234','domain@svdp.com','9000000002','Domain HQ' WHERE NOT EXISTS (SELECT 1 FROM pusg_domain WHERE name='domainadmin')");
 			ddl.executeUpdate("INSERT INTO pusg_cloud(name,pass,email,mobile,address) SELECT 'cloudadmin','1234','cloud@svdp.com','9000000003','Cloud HQ' WHERE NOT EXISTS (SELECT 1 FROM pusg_cloud WHERE name='cloudadmin')");
+			ddl.executeUpdate("INSERT INTO pusg_domains(domain) SELECT 'General' WHERE NOT EXISTS (SELECT 1 FROM pusg_domains WHERE domain='General')");
 			ddl.close();
 		} else {
 			try {
