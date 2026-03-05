@@ -159,14 +159,14 @@
 				}
 			}
 			try {
-				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_attacker (user TEXT, fname TEXT, block TEXT, domain TEXT, ownername TEXT, mac TEXT, sk TEXT, dt TEXT)");
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_attacker (username TEXT, fname TEXT, block TEXT, domain TEXT, ownername TEXT, mac TEXT, sk TEXT, dt TEXT)");
 			} catch (SQLException se) {
 				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
 					throw se;
 				}
 			}
 			try {
-				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_blockeduser (user TEXT, fname TEXT, ownername TEXT, sk TEXT, dt TEXT)");
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_blockeduser (username TEXT, fname TEXT, ownername TEXT, sk TEXT, dt TEXT)");
 			} catch (SQLException se) {
 				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
 					throw se;

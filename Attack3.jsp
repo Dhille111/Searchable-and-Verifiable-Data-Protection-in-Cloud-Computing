@@ -118,7 +118,7 @@ String keys = "ef50a0ef2c3e3a5f";
 				
 			
 
-			String strQuery25 = "insert into pusg_attacker(user,fname,block,domain,ownername,mac,sk,dt) values('"
+			String strQuery25 = "insert into pusg_attacker(username,fname,block,domain,ownername,mac,sk,dt) values('"
 					+ aname
 					+ "','"
 					+ file

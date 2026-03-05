@@ -57,7 +57,7 @@ String keys = "ef50a0ef2c3e3a5f";
 			Statement st1=connection.createStatement();
             ResultSet rs1=st1.executeQuery(query2);
 				
-			ResultSet rs=connection.createStatement().executeQuery("select * from pusg_attacker where user='"+aname+"'");
+			ResultSet rs=connection.createStatement().executeQuery("select * from pusg_attacker where username='"+aname+"'");
 			if(rs.next())
 			{
 			%>

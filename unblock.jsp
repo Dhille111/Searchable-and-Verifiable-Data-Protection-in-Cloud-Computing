@@ -23,7 +23,7 @@
              	String user = request.getParameter("user");
              	try {
 
-             		String query = "delete  from pusg_blockeduser where user='"+user+"' ";
+			 		String query = "delete  from pusg_blockeduser where username='"+user+"' ";
              		Statement st = connection.createStatement();
              	 st.executeUpdate(query);
 				 

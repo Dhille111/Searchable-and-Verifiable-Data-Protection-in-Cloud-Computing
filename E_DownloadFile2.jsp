@@ -224,7 +224,7 @@ function destroyClickedElement(event)
 					String user = (String) application
 							.getAttribute("ename");
 String type="Internal";
-					String strQuery2 = "insert into pusg_blockeduser(user,fname,ownername,sk,dt) values('"
+					String strQuery2 = "insert into pusg_blockeduser(username,fname,ownername,sk,dt) values('"
 							+ user
 							+ "','"
 							+ file
