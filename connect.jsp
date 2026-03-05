@@ -158,6 +158,20 @@
 					throw se;
 				}
 			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_attacker (user TEXT, fname TEXT, block TEXT, domain TEXT, ownername TEXT, mac TEXT, sk TEXT, dt TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
+			try {
+				ddl.executeUpdate("CREATE TABLE IF NOT EXISTS pusg_blockeduser (user TEXT, fname TEXT, ownername TEXT, sk TEXT, dt TEXT)");
+			} catch (SQLException se) {
+				if (!"42P07".equals(se.getSQLState()) && (se.getMessage() == null || se.getMessage().toLowerCase().indexOf("already exists") < 0)) {
+					throw se;
+				}
+			}
 
 			ddl.executeUpdate("INSERT INTO ttp(name,pass,email,mobile,address) SELECT 'ttpadmin','1234','ttp@svdp.com','9000000001','TTP HQ' WHERE NOT EXISTS (SELECT 1 FROM ttp WHERE name='ttpadmin')");
 			ddl.executeUpdate("INSERT INTO domain_manager(name,pass,email,mobile,address) SELECT 'domainadmin','1234','domain@svdp.com','9000000002','Domain HQ' WHERE NOT EXISTS (SELECT 1 FROM domain_manager WHERE name='domainadmin')");
